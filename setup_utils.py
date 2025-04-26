@@ -7,10 +7,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
 import time
+from webdriver_manager.chrome import ChromeDriverManager
 
+def auto_create_driver():
+    """Automatically creates and returns a Selenium WebDriver instance using ChromeDriverManager."""
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    return driver
 
 def create_driver():
-    """Creates and returns a Selenium WebDriver instance."""
+    """Creates and returns a Selenium WebDriver instance.
+    """
 
     chrome_driver_path = "C:\Program Files (x86)\ChromeDriver\chromedriver-win64\chromedriver.exe"
 
