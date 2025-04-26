@@ -180,3 +180,59 @@ def process_metadata_for_what_to_do(driver, countries):
             print(f"✅ Created a meta description for '{update_menu_name}' successfully.")
         except Exception as e:
             print(f"❌ Failed to create the meta description for '{search_menu_name}': {e}")
+
+def change_menu_name(driver, menu_name, new_menu_name):
+    """Changes the name for a given menu item."""
+    try:
+        # Navigate to the URL with the Menus
+        menu_items_url = "https://bodyandsoulinternational.com/administrator/index.php?option=com_menus&view=items&menutype="
+        driver.get(menu_items_url)
+
+        # Wait for the search field to be present
+        search_field = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "filter_search"))
+        )
+
+        # Search for the menu
+        search_field.clear()  # Clear any existing text
+        search_field.send_keys(menu_name)
+        search_field.send_keys(Keys.RETURN)
+        
+        # Click on the menu
+        driver.find_element(By.LINK_TEXT, menu_name).click()
+
+        # Wait for the title input field to be present
+        menu_title_input = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "jform_title"))
+        )
+
+        # Clear the existing title and input the new menu name
+        menu_title_input.clear()
+        menu_title_input.send_keys(new_menu_name)
+
+        # Click the 'Save & Close' button
+        driver.find_element(By.XPATH, "//button[normalize-space()='Save & Close']").click()
+
+        print(f"✅ Changed the menu name from '{menu_name}' to '{new_menu_name}' successfully.")
+
+    except Exception as e:
+        print(f"❌ Failed to change the menu name for '{menu_name}'")
+        return
+
+def change_menu_names_for_countries(driver, countries):
+    """
+    Calls the change_menu_name function for a list of countries, using
+    "What to do in {country}" as menu_name and "Activities {country}" as new_menu_name.
+
+    Args:
+        driver (webdriver): The Selenium WebDriver instance.
+        countries (list): A list of country names.
+
+    Returns:
+        None
+    """
+    for country in countries:
+        menu_name = f"What to do in {country}"
+        new_menu_name = f"Activities {country}"
+        change_menu_name(driver, menu_name, new_menu_name)
+

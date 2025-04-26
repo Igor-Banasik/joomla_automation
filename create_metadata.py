@@ -1,11 +1,12 @@
-from setup_utils import create_driver, login_to_joomla
-from metadata_creator import metadata_description_editor, process_metadata_for_events_in_articles, process_metadata_for_activities, process_metadata_for_what_to_do
+from setup_utils import create_driver, login_to_joomla, auto_create_driver
+from metadata_creator import metadata_description_editor, process_metadata_for_events_in_articles, process_metadata_for_activities, process_metadata_for_what_to_do, change_menu_name, change_menu_names_for_countries
 
-driver = create_driver()
+# driver = create_driver()
+driver = auto_create_driver()
 login_to_joomla(driver)
+input("Press Enter to continue...")
 
 countries = [
-    "Italy",
     "Japan",
     "Jordan",
     "Laos",
@@ -47,6 +48,6 @@ countries = [
     "Zanzibar",
 ]
 
-process_metadata_for_what_to_do(driver, countries)
+# change_menu_names_for_countries(driver, countries)
 
 
